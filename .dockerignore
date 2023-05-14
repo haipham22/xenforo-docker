@@ -1,0 +1,14 @@
+data/
+internal_data/
+js/swfupload/
+js/vendor/
+js/videojs/
+js/xf/*.min.js
+js/xf/*-compiled.js
+library/
+src/vendor/
+styles/fonts/fa/
+styles/fonts/videojs/
+index.html
+forum.zip
+well-known.tar

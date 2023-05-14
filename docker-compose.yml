@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  php:
+    build: .
+    volumes:
+      - .:/app/
+
+  web:
+    image: nginx
+    restart: always
+    environment:
+      - NGINX_HOST=truyencuatoi.dev.com
+      - VIRTUAL_HOST=truyencuatoi.dev.com
+      - NGINX_PORT=80
+    volumes:
+      - ./docker/nginx/templates:/etc/nginx/templates
+      - .:/app
+      - ./internal_data:/app/internal_data
+      - ./data:/app/data
+    depends_on:
+      - php
+
+  db:
+    image: mariadb
+    environment:
+      MYSQL_DATABASE: 'forum'
+      MYSQL_USER: 'forum'
+      MYSQL_PASSWORD: 'forum'
+      MARIADB_ROOT_PASSWORD: 'root'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+      - ./docker/mysql/data:/var/lib/mysql
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
