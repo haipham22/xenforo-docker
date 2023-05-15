@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine
+FROM php:7.3-fpm-alpine
 
 RUN mkdir -p /app
 
@@ -10,8 +10,8 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 RUN chmod +x /usr/local/bin/install-php-extensions \
     && sync \
     && install-php-extensions @composer gd pdo_mysql mysqli zip exif \
-        memcached curl exif ftp iconv mbstring  \
-        mcrypt mysqli opcache pcntl simplexml xml zip imagick gd pdo_mysql \
+    memcached curl exif ftp iconv mbstring  \
+    mcrypt mysqli opcache pcntl simplexml xml zip imagick gd pdo_mysql \
     && rm -rf /var/cache/apk/*
 
 #RUN chmod 0777 /app/internal_data && \
